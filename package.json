@@ -1,0 +1,14 @@
+{
+  "name": "recount",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@projectdysnomia/dysnomia": "^0.1.3"
+  }
+}
