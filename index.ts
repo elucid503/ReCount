@@ -1,7 +1,7 @@
 import {
+    ApplicationCommandStructure,
     Client as DysnomiaClient,
     CommandInteraction,
-    ApplicationCommand,
     ClientOptions,
     Constants,
     ClientEvents
@@ -19,7 +19,7 @@ import { LoggingColors } from "./extras/types/logging";
 export interface Command {
 
     Name: string;
-    Payload: ApplicationCommand;
+    Payload: ApplicationCommandStructure;
 
     Run: (Client: ReCount, Interaction: CommandInteraction) => Promise<void>;
 
@@ -46,6 +46,31 @@ export class ReCount extends DysnomiaClient {
 
     }
 
+    public async RefreshCommands(): Promise<boolean> {
+
+        const APIPayload: ApplicationCommandStructure[] = [];
+
+        for (const Command of this.Commands.values()) {
+
+            APIPayload.push(Command.Payload);
+            
+        }
+
+        const Response = await this.bulkEditCommands(APIPayload).catch((error) => {
+            
+            Log("Command PUT Error", `${error}`, LoggingColors.RED);
+            return false;
+
+        }).then(() => {
+
+            return true;
+
+        });
+
+        return Response;
+        
+    }
+
 }
 
 // Creating the Client
@@ -56,7 +81,9 @@ const Client = new ReCount(APIKeys.DiscordToken, {
 
         intents: [ Constants.Intents.allNonPrivileged, Constants.Intents.guildMessages ]
 
-    }
+    },
+
+    restMode: true
     
 });
 

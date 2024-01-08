@@ -1,6 +1,13 @@
 {
 
     "Footer": "ReCount 1.0 • By Sprout",
-    "FooterIcon": "https://sprout.software/cdn/Sprout_Logo_Refresh.png"
+    "FooterIcon": "https://sprout.software/cdn/Sprout_Logo_Refresh.png",
+
+    "Emoji": { 
+
+        "Correct": "1193398600114393098",
+        "Incorrect": "1193398598214353076"
+
+    }
     
 }
