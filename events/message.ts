@@ -33,7 +33,7 @@ export default {
 
         await DBGuild.Load();
 
-        const CountingChannel = DBGuild.Settings.CountingChannelID;
+        let CountingChannel = DBGuild.Settings.CountingChannelID;
 
         if (CountingChannel === "0") {
 
@@ -44,6 +44,8 @@ export default {
                 if (Message.channel.name.toLowerCase() === "counting") {
 
                     DBGuild.Settings.CountingChannelID = Message.channel.id;
+
+                    CountingChannel = Message.channel.id;
 
                     await DBGuild.Save();
 
