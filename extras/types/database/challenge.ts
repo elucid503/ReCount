@@ -136,7 +136,7 @@ export class Challenge {
             description: `Your challenge against ${Creator.username} has been accepted.\nYou have 1 hour to count as much as you can. Good luck!`,
             color: EmbedColors.GREEN,
 
-            author: { name: "Counting Minigames" }
+            author: { name: "ReCount Minigames" }
 
         });
 
@@ -201,7 +201,7 @@ export class Challenge {
             description: `The challenge between ${Creator.username} and ${Opponent.username} has ended. Here are the results:\n\n- ${Creator.username}: **${CreatorTotal}** Total Counts\n- ${Opponent.username}: **${OpponentTotal}** Total Counts\n\n- ${Winner ? `<@${Winner}> Won!` : "Challenge Tied!"}`,
             color: EmbedColors.GREEN,
 
-            author: { name: "Counting Minigames" }
+            author: { name: "ReCount Minigames" }
 
         });
 

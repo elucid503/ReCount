@@ -53,7 +53,7 @@ export default {
             description: `Here are the ground rules for the 1v1 Count-Off.\n- Both ${Interaction.user.username} and ${Member?.username} will have 1 Hour\n- ${Member?.username} must accept the challenge first via DMs\n- Only counting in this server will affect the challenge\n- The member with the most valid counts wins\n- If both members count the same amount, it is a tie\n\nPlease wait for ${Member?.username} to accept. We'll notify you when they do. **Good luck**!`,
             color: EmbedColors.GREEN,
  
-            author: { name: "Counting Minigames" }
+            author: { name: "ReCount Minigames" }
 
         })
 

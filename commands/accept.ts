@@ -1,6 +1,6 @@
 import { ApplicationCommandStructure, CommandInteraction, Constants } from "@projectdysnomia/dysnomia";
 
-import { ReCount, Command, DB } from "..";
+import { ReCount, Command} from "..";
 
 import { CreateEmbed, ErrorEmbed } from "../extras/functions/embeds";
 import { EmbedColors, ErrorLevels } from "../extras/types/embeds";
@@ -59,7 +59,7 @@ export default {
             description: `Your challenge against ${Interaction.user.username} has started.\nYou have 1 hour to count as much as you can in <#${CountingChannel}>. Good luck!`,
             color: EmbedColors.GREEN,
 
-            author: { name: "Counting Minigames" }
+            author: { name: "ReCount Minigames" }
 
         });
 
