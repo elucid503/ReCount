@@ -5,10 +5,8 @@ export enum EmbedColors {
     BLUE = 3893487,
     GREEN = 3927945,
     YELLOW = 14544699,
-    RED = 16538976,
-
-    RANDOM = 0,
-
+    RED = 16538976
+    
 }
   
 export enum ErrorColors {
