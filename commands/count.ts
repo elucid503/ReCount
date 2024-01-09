@@ -3,7 +3,6 @@ import { ApplicationCommandStructure, CommandInteraction, Constants } from "@pro
 import { ReCount, Command, DB } from "..";
 
 import { CreateEmbed } from "../extras/functions/embeds";
-import { EmbedColors } from "../extras/types/embeds";
 import { Guild } from "../extras/types/database/guild";
 
 export default {
