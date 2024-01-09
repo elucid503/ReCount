@@ -72,7 +72,7 @@ export default {
 
                 { 
 
-                    name: "Rank",
+                    name: "Global Rank",
                     value: `${RankAmongstServers.toLocaleString()} / ${ArrayOfGuilds.length.toLocaleString()}`,
                     inline: true
 

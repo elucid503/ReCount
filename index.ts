@@ -105,7 +105,7 @@ async function Main() {
 
         gateway: {
 
-            intents: [Constants.Intents.allNonPrivileged, Constants.Intents.guildMessages]
+            intents: [Constants.Intents.allNonPrivileged, Constants.Intents.guildMessages, Constants.Intents.messageContent ]
 
         },
 

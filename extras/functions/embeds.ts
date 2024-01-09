@@ -13,15 +13,13 @@ export function CreateEmbed(options: EmbedOptions): Embed {
   
     if (color === 0) { 
   
-        // Pick randomly from the EmbedColors enum
-        
-        const keys = Object.keys(EmbedColors);
-        const values = Object.values(EmbedColors);
-        
-        const random = Math.floor(Math.random() * keys.length);
+      const keys = Object.keys(EmbedColors).filter(k => isNaN(Number(k)));
+      const values = keys.map(k => EmbedColors[k as keyof typeof EmbedColors]);
 
-        color = values[random];
-        
+      const random = Math.floor(Math.random() * keys.length);
+
+      color = values[random];
+      
     }
   
     let FooterToSet = Footer;
