@@ -9,7 +9,7 @@ export default {
 
     Run: async (Client: ReCount, ...Args: any[]) => {
 
-        Log("Logged In", `Logged in as ${Client.user.username}`, LoggingColors.GREEN);
+        Log("Logged In", `Logged in as \`${Client.user.username}\``, LoggingColors.GREEN);
 
         // Refresh commands if provided the option to do so
 
