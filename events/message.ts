@@ -21,7 +21,9 @@ export default {
 
     Run: async (Client: ReCount, ...Args: any[]) => {
 
-        const Message = Args[0] as Message;
+        const Message = Args[0] || null as Message | null;
+
+        if (!Message || !Message?.author) { return; }
 
         if (Message.author.bot || !Message.guildID) { return; }
 
@@ -117,6 +119,26 @@ export default {
         if (!Results.Passed) {
 
             Message.addReaction(`Incorrect:${Emoji.Incorrect}`).catch(() => { });
+            
+            // Check for challenges
+
+            const AllChallenges = Client.ActiveChallenges.values();
+
+            const Challenge = [...AllChallenges].find((Challenge) => Challenge.Accepted && Challenge.GuildID == Message.guildID);
+
+            // Increment stats if exists
+
+            if (Challenge) {
+
+                const Stats = Challenge.Stats.get(Message.author.id);
+
+                if (Stats) {
+
+                    Stats.NumberOfFailedCounts++;
+
+                }
+
+            }
 
             const Channel = Message.channel
 
@@ -146,6 +168,26 @@ export default {
             if (Special) {
 
                 Message.addReaction(`Special:${Emoji.Special}`).catch(() => { });
+
+            }
+
+            // Check for challenges
+
+            const AllChallenges = Client.ActiveChallenges.values();
+
+            const Challenge = [...AllChallenges].find((Challenge) => Challenge.Accepted && Challenge.GuildID == Message.guildID);
+
+            // Increment stats if exists
+
+            if (Challenge) {
+
+                const Stats = Challenge.Stats.get(Message.author.id);
+
+                if (Stats) {
+
+                    Stats.NumberOfSuccessfulCounts++;
+
+                }
 
             }
             

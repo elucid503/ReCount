@@ -15,6 +15,8 @@ export default {
 
         const Message = Args[0] as Message;
 
+        if (!Message || !Message?.author) return;
+
         if (Message.author.bot || !Message.guildID) return;
 
         const ResolvedGuild = Client.guilds.get(Message.guildID) || null;

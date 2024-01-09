@@ -24,7 +24,7 @@ export class Challenge {
 
     public Accepted: boolean = false;
     
-    constructor(GuildID: string, Creator: string, Opponent: string) {
+    constructor(GuildID: string, Creator: string, Opponent: string, client: ReCount) {
 
         this.GuildID = GuildID;
 
@@ -42,7 +42,7 @@ export class Challenge {
 
             if (!this.Accepted) {
 
-                this.Delete();
+                this.Delete(client);
 
             }
 
@@ -50,70 +50,12 @@ export class Challenge {
 
     }
 
-    public async Load(): Promise<boolean> { 
+    public async Delete(client: ReCount): Promise<boolean> {
 
-        const Response = await DB.collection("challenges").findOne({ Creator: this.Creator }).catch((error) => {
+        client.ActiveChallenges.delete(this.GuildID);
 
-            Log("Database Error", `Error loading challenge: ${error}`, LoggingColors.RED);
-            return false;
-
-        }).then((Document) => {
-
-            if (Document instanceof Object) {
-
-                for (const [UserID, Stats] of Object.entries(Document.Stats)) {
-
-                    this.Accepted = Document.Accepted;
-                    this.Stats.set(UserID, Stats as ChallengeStats);
-
-                }
-                
-                return true;
-
-            } else {
-
-                return false;
-
-            }
-
-        });
-
-        return Response;
-
-    }
-
-    public async Save(): Promise<boolean> {
-
-        const Response = await DB.collection("challenges").updateOne({ Creator: this.Creator }, { $set: this }, { upsert: true }).catch((error) => {
-
-            Log("Database Error", `Error writing challenge: ${error}`, LoggingColors.RED);
-            return false;
-
-        }).then(() => {
-
-            return true;
-
-        });
-
-        return Response;
-
-    }
-
-    public async Delete(): Promise<boolean> {
-
-        const Response = await DB.collection("challenges").deleteOne({ Creator: this.Creator }).catch((error) => {
-
-            Log("Database Error", `Error deleting challenge: ${error}`, LoggingColors.RED);
-            return false;
-
-        }).then(() => {
-
-            return true;
-
-        });
-
-        return Response;
-
+        return true;
+        
     }
 
     public async Start(client: ReCount): Promise<boolean> {
@@ -124,16 +66,19 @@ export class Challenge {
 
             this.End(client);
 
-        }, 3600000); // 1 Hour
+        } // 5 minutes
+            
+        , 150000);
 
         // Notify users
 
         const Creator = await client.getRESTUser(this.Creator);
+        const Opponent = await client.getRESTUser(this.Opponent);
 
         const NotificationEmbed = CreateEmbed({
 
             title: `Challenge Accepted!`,
-            description: `Your challenge against ${Creator.username} has been accepted.\nYou have 1 hour to count as much as you can. Good luck!`,
+            description: `Your challenge against ${Opponent.username} has been accepted.\nYou have 1 hour to count as much as you can. Good luck!`,
             color: EmbedColors.GREEN,
 
             author: { name: "ReCount Minigames" }
@@ -152,7 +97,7 @@ export class Challenge {
 
         // Delete challenge
 
-        this.Delete();
+        this.Delete(client);
 
         // Send results
 

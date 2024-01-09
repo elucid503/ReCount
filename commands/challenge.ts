@@ -2,8 +2,8 @@ import { ApplicationCommandStructure, CommandInteraction, Constants } from "@pro
 
 import { ReCount, Command } from "..";
 
-import { CreateEmbed } from "../extras/functions/embeds";
-import { EmbedColors } from "../extras/types/embeds";
+import { CreateEmbed, ErrorEmbed } from "../extras/functions/embeds";
+import { EmbedColors, ErrorLevels } from "../extras/types/embeds";
 import { Challenge } from "../extras/types/database/challenge";
 
 export default {
@@ -39,11 +39,26 @@ export default {
 
         if (typeof MemberID != "string" || !Interaction.guildID || !Interaction.user?.id) { return; } // For type safety
 
+        if (Interaction.user.id == MemberID) {
+
+            const Embed = ErrorEmbed({
+
+                error: "You Can't Challenge Yourself",
+                message: "Select a different member to challenge.",
+                severity: ErrorLevels.INFO,
+
+            });
+
+            Interaction.createMessage({ embeds: [Embed], flags: 64 }).catch(() => null);
+
+            return;
+
+        }
+                
+
         const Member = await Client.getRESTUser(MemberID).catch(() => null);
 
-        const DBChallenge = new Challenge(Interaction.guildID, Interaction.user!.id, MemberID);
-
-        await DBChallenge.Save();
+        const DBChallenge = new Challenge(Interaction.guildID, Interaction.user!.id, MemberID, Client);
 
         Client.ActiveChallenges.set(Interaction.user.id, DBChallenge);
         
@@ -68,6 +83,8 @@ export default {
             title: `${Interaction.user.username} Challanged You`,
             description: `You have been challanged by ${Interaction.user.username} to a 1v1 Count-Off.\n\nHere are the ground rules for the challange.\n- Both ${Interaction.user.username} and ${Member?.username} will have 1 Hour\n- ${Member?.username} must accept the challenge first via DMs\n- Only counting in this server will affect the challenge\n- The member with the most valid counts wins\n- If both members count the same amount, it is a tie\n\nPlease use the \`/accept\` command to accept the challenge.\nYou have 1 hour to accept. **Good luck**!`,
             color: EmbedColors.GREEN,
+
+            author: { name: "ReCount Minigames" }
 
         });
 

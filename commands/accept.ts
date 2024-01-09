@@ -19,7 +19,7 @@ export default {
 
     Run: async (Client: ReCount, Interaction: CommandInteraction) => {
 
-        if (!Interaction.guildID || !Interaction.user?.id) { return; } // For type safety
+        if (!Interaction.user?.id) { return; } // For type safety
 
         const AllChallenges = Client.ActiveChallenges.values();
 
@@ -44,19 +44,21 @@ export default {
 
         Challenge.Accepted = true;
 
-        Challenge.Save();
         Challenge.Start(Client);
 
-        const ResolvedGuild = Client.guilds.get(Interaction.guildID);
+        const ResolvedGuild = Client.guilds.get(Challenge.GuildID);
 
-        const DBGuild = new Guild(Interaction.guildID, ResolvedGuild?.name || "Unknown Name");
+        const DBGuild = new Guild(Challenge.GuildID, ResolvedGuild?.name || "Unknown Name");
+
+        await DBGuild.Load();
 
         const CountingChannel = DBGuild.Settings.CountingChannelID;
+        const Creator = await Client.getRESTUser(Challenge.Creator).catch(() => null);
 
         const StartedEmbed = CreateEmbed({
 
             title: "Challenge Started",
-            description: `Your challenge against ${Interaction.user.username} has started.\nYou have 1 hour to count as much as you can in <#${CountingChannel}>. Good luck!`,
+            description: `Your challenge against ${Creator?.username} has started.\nYou have 1 hour to count as much as you can in <#${CountingChannel}>. Good luck!`,
             color: EmbedColors.GREEN,
 
             author: { name: "ReCount Minigames" }

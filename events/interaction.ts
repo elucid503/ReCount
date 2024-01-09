@@ -22,7 +22,7 @@ export default {
 
                 if (Command) {
 
-                    Log("Command Executed", `\`${Interaction.member?.user.username}\` used the \`/${Interaction.data.name}\` command.`, LoggingColors.GREEN);
+                    Log("Command Executed", `\`${Interaction.user?.username}\` used the \`/${Interaction.data.name}\` command.`, LoggingColors.GREEN);
                     
                     await Command.Run(Client, Interaction).catch((error) => {
                         
