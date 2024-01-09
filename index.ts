@@ -93,6 +93,8 @@ await DBClient.connect().catch((error) => {
 
 });
 
+Log("Database", "Connected to the database.", LoggingColors.GREEN);
+
 const DB = DBClient.db("ReCount");
 
 async function Main() {
