@@ -11,11 +11,13 @@ export default {
 
         // Check if error is just a reconnect
 
-        if ("reset by peer" in Args[0].message) return;
+        if (!Args[0]) { return; }
+
+        if ("reset by peer" in Args[0]?.message) return;
 
         // Log error
 
-        Log("Client Error", `An error has occured in the client: ${Args[0].message}`, LoggingColors.RED);
+        Log("Client Error", `An error has occured in the client: ${Args[0]?.message}`, LoggingColors.RED);
 
     }
 
