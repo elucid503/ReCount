@@ -3,7 +3,7 @@ import {
     ApplicationCommandStructure,
 
     Client as DysnomiaClient,
-    
+
     CommandInteraction,
     ClientOptions,
     Constants,
@@ -158,6 +158,17 @@ async function Main() {
     Client.once("ready", async () => {
 
         Log("Logged In", `Logged in as \`${Client.user.username}\``, LoggingColors.GREEN);
+
+        Client.editStatus([
+
+            {
+
+                name: "#counting",
+                type: Constants.ActivityTypes.WATCHING
+
+            }
+
+        ])
 
         // Refresh commands if provided the option to do so
 
