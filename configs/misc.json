@@ -1,14 +1,16 @@
 {
 
-    "Footer": "ReCount 1.0 • By Sprout",
-    "FooterIcon": "https://sprout.software/cdn/Sprout_Logo_Normal.png",
+    "Footer": "ReCount 1.1 • By Sprout",
+    "FooterIcon": "https://sprout.software/cdn/Sprout_Logo_New.png",
 
     "Emoji": { 
 
         "Correct": "1193398600114393098",
         "Incorrect": "1193398598214353076",
 
-        "Special": "1194100126877229159"
+        "Special": "1194100126877229159",
+
+        "Romans": "1252713624842141747"
 
     }
     

@@ -1,9 +1,7 @@
 import { Message } from "@projectdysnomia/dysnomia";
 import { ReCount, Event } from "..";
 
-import { Log } from "../extras/functions/logging";
 import { Guild } from "../extras/types/database/guild";
-import { LoggingColors } from "../extras/types/logging";
 import { CreateEmbed } from "../extras/functions/embeds";
 import { EmbedColors } from "../extras/types/embeds";
 
@@ -17,7 +15,7 @@ export default {
 
         if (!Message || !Message?.author) return;
 
-        if (Message.author.bot || !Message.guildID) return;
+        if (!Message.guildID) return;
 
         const ResolvedGuild = Client.guilds.get(Message.guildID) || null;
         

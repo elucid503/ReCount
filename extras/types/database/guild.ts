@@ -1,5 +1,6 @@
 import { DB } from "../../../"
 import { Log } from "../../functions/logging";
+
 import { LoggingColors } from "../logging";
 
 interface CountingGameStats {

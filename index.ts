@@ -1,10 +1,14 @@
 import {
+
     ApplicationCommandStructure,
+
     Client as DysnomiaClient,
+    
     CommandInteraction,
     ClientOptions,
     Constants,
     ClientEvents
+
 } from "@projectdysnomia/dysnomia";
 
 import { MongoClient, ServerApiVersion } from "mongodb";
@@ -15,8 +19,6 @@ import APIKeys from "./configs/keys.json";
 
 import { Log } from "./extras/functions/logging";
 import { LoggingColors } from "./extras/types/logging";
-
-import { Challenge } from "./extras/types/database/challenge";
 
 // Typings for handlers
 
@@ -43,8 +45,6 @@ export class ReCount extends DysnomiaClient {
 
     public Commands: Map<string, Command> = new Map();
     public Events: Map<string, Event> = new Map();
-
-    public ActiveChallenges = new Map<string, Challenge>();
 
     constructor(token: string, options?: ClientOptions) {
 

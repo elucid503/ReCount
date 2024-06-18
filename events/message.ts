@@ -1,3 +1,5 @@
+import Romans from "romans";
+
 import { Message, TextChannel } from "@projectdysnomia/dysnomia";
 import { ReCount, Event } from "..";
 
@@ -9,7 +11,8 @@ import { EmbedColors } from "../extras/types/embeds";
 
 const Regexes = { 
 
-    Number: new RegExp(/^[0-9]+$/) 
+    Number: new RegExp(/^[0-9]+$/),
+    Romans: new RegExp(/^(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/)
 
 }
 
@@ -57,9 +60,9 @@ export default {
 
         if (Message.channel.id !== CountingChannel) { return; }
 
-        if (!Regexes.Number.test(Message.content)) { return; }
+        if (!Regexes.Number.test(Message.content) && !Regexes.Romans.test(Message.content)) { return; }
 
-        const Count = parseInt(Message.content);
+        const Count = parseInt(Message.content) || Romans.deromanize(Message.content);
 
         const LastCount = DBGuild.Stats.CurrentNumber;
 
@@ -69,7 +72,8 @@ export default {
         const Results = { 
 
             Passed: true,
-            Reason: "Unknown"
+            Reason: "Unknown",
+            WasRomanNumeral: Regexes.Romans.test(Message.content)
 
         }
 
@@ -121,26 +125,6 @@ export default {
         if (!Results.Passed) {
 
             Message.addReaction(`Incorrect:${Emoji.Incorrect}`).catch(() => { });
-            
-            // Check for challenges
-
-            const AllChallenges = Client.ActiveChallenges.values();
-
-            const Challenge = [...AllChallenges].find((Challenge) => Challenge.Accepted && Challenge.GuildID == Message.guildID);
-
-            // Increment stats if exists
-
-            if (Challenge) {
-
-                const Stats = Challenge.Stats.get(Message.author.id);
-
-                if (Stats) {
-
-                    Stats.NumberOfFailedCounts++;
-
-                }
-
-            }
 
             const Channel = Message.channel
 
@@ -163,6 +147,12 @@ export default {
 
             Message.addReaction(`Correct:${Emoji.Correct}`).catch(() => { });
 
+            if (Results.WasRomanNumeral) {
+
+                Message.addReaction(`Romans:${Emoji.Romans}`).catch(() => { });
+
+            }
+
             // Check if special (every 50 or 100, or in SpecialOutliers)
 
             const Special = (Count % 50 === 0 || Count % 100 === 0 || SpecialOutliers.includes(Count));
@@ -170,26 +160,6 @@ export default {
             if (Special) {
 
                 Message.addReaction(`Special:${Emoji.Special}`).catch(() => { });
-
-            }
-
-            // Check for challenges
-
-            const AllChallenges = Client.ActiveChallenges.values();
-
-            const Challenge = [...AllChallenges].find((Challenge) => Challenge.Accepted && Challenge.GuildID == Message.guildID);
-
-            // Increment stats if exists
-
-            if (Challenge) {
-
-                const Stats = Challenge.Stats.get(Message.author.id);
-
-                if (Stats) {
-
-                    Stats.NumberOfSuccessfulCounts++;
-
-                }
 
             }
             
