@@ -194,11 +194,15 @@ async function Main() {
 
         Log("Unhandled Rejection", `${error}`, LoggingColors.RED);
 
+        return;
+
     });
 
     process.on("uncaughtException", (error) => {
 
         Log("Uncaught Exception", `${error}`, LoggingColors.RED);
+
+        return;
 
     });
 
