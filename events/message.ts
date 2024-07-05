@@ -16,7 +16,7 @@ const Regexes = {
 
 }
 
-const SpecialOutliers = [10, 69, 420, 1337];
+const SpecialOutliers = [10, 42, 69, 420, 1337];
 
 export default {
 
