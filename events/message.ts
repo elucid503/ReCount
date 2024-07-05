@@ -113,12 +113,12 @@ export default {
 
         }
 
-        // if (LastUserCounted === UserCounting) {
+        if (LastUserCounted === UserCounting) {
 
-        //     Results.Passed = false;
-        //     Results.Reason = "The same user counted twice in a row.";
+            Results.Passed = false;
+            Results.Reason = "The same user counted twice in a row.";
 
-        // }
+        }
 
         if (Results.Passed) {
 
