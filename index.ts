@@ -218,7 +218,7 @@ async function Main() {
 
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url.includes(`file://`)) {
 
     Main();
 

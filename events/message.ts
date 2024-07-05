@@ -8,11 +8,13 @@ import { CreateEmbed } from "../extras/functions/embeds";
 
 import { Emoji } from "../configs/misc.json";
 import { EmbedColors } from "../extras/types/embeds";
+import { ConvertNumberNameToValue } from "../functions/conversions";
 
 const Regexes = { 
 
     Number: new RegExp(/^[0-9]+$/),
-    Romans: new RegExp(/^(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/)
+    Romans: new RegExp(/^(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/),
+    WordNumber: new RegExp(/^(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)( (one|two|three|four|five|six|seven|eight|nine))?$|^(one|two|three|four|five|six|seven|eight|nine) hundred( (and )?(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)( (one|two|three|four|five|six|seven|eight|nine))?)?$/i)
 
 }
 
@@ -60,9 +62,29 @@ export default {
 
         if (Message.channel.id !== CountingChannel) { return; }
 
-        if (!Regexes.Number.test(Message.content) && !Regexes.Romans.test(Message.content)) { return; }
+        if (!Regexes.Number.test(Message.content) && !Regexes.Romans.test(Message.content) && !Regexes.WordNumber.test(Message.content)) { return; }
 
-        const Count = parseInt(Message.content) || Romans.deromanize(Message.content);
+        let Count: number;
+
+        try {
+
+            if (Regexes.Romans.test(Message.content)) {
+
+                Count = Romans.deromanize(Message.content);
+
+            } else if (Regexes.WordNumber.test(Message.content)) {
+
+                Count = ConvertNumberNameToValue(Message.content);
+
+            } else {
+
+                Count = parseInt(Message.content);
+
+            }
+
+        } catch { return; }
+
+        if (isNaN(Count)) { return; }
 
         const LastCount = DBGuild.Stats.CurrentNumber;
 
@@ -73,7 +95,9 @@ export default {
 
             Passed: true,
             Reason: "Unknown",
-            WasRomanNumeral: Regexes.Romans.test(Message.content)
+
+            WasRomanNumeral: Regexes.Romans.test(Message.content),
+            WasWordNumber: Regexes.WordNumber.test(Message.content)
 
         }
 
@@ -89,12 +113,12 @@ export default {
 
         }
 
-        if (LastUserCounted === UserCounting) {
+        // if (LastUserCounted === UserCounting) {
 
-            Results.Passed = false;
-            Results.Reason = "The same user counted twice in a row.";
+        //     Results.Passed = false;
+        //     Results.Reason = "The same user counted twice in a row.";
 
-        }
+        // }
 
         if (Results.Passed) {
 
@@ -150,6 +174,12 @@ export default {
             if (Results.WasRomanNumeral) {
 
                 Message.addReaction(`Romans:${Emoji.Romans}`).catch(() => { });
+
+            }
+
+            if (Results.WasWordNumber) {
+
+                Message.addReaction(`Words:${Emoji.Words}`).catch(() => { });
 
             }
 
