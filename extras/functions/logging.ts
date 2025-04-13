@@ -27,7 +27,7 @@ export async function Log(subject: string, message: string, color: LoggingColors
 
     LogToRelay("W6QLnZW9UHJ2HH3p", InferredLogLevel, subject, message);
 
-    if (!NotToRelay) await PostToWebhook(subject, nostyle, null, ResolvableColors[color as keyof typeof ResolvableColors]);
+    if (NotToRelay) await PostToWebhook(subject, nostyle, null, ResolvableColors[color as keyof typeof ResolvableColors]);
 
   } catch (error) {
 
