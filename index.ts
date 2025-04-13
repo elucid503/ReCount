@@ -157,7 +157,7 @@ async function Main() {
 
     Client.once("ready", async () => {
 
-        Log("Logged In", `Logged in as \`${Client.user.username}\``, LoggingColors.GREEN);
+        Log("Logged In", `Logged in as ${Client.user.username}`, LoggingColors.GREEN);
 
         Client.editStatus([
 
