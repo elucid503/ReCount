@@ -23,7 +23,7 @@ export default {
                 if (Command) {
 
                     Log("Command Executed", `\`${Interaction.user?.username}\` used the \`/${Interaction.data.name}\` command.`, LoggingColors.GREEN);
-                    Log("Command Executed", `<code style="background-color:rgb(36, 36, 36); padding: 2px 4px; border-radius: 4px;">${Interaction.data.name}</code> used the <code style="background-color:rgb(36, 36, 36); padding: 2px 4px; border-radius: 4px;">/${Interaction.data.name}</code> command.`, LoggingColors.GREEN, true); // only to relay
+                    Log("Command Executed", `<code style="background-color:rgb(36, 36, 36); padding: 2px 4px; border-radius: 4px;">${Interaction.user?.username}</code> used the <code style="background-color:rgb(36, 36, 36); padding: 2px 4px; border-radius: 4px;">/${Interaction.data.name}</code> command.`, LoggingColors.GREEN, true); // only to relay
 
                     await Command.Run(Client, Interaction).catch((error) => {
                         
