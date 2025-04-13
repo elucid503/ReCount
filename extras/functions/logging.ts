@@ -5,7 +5,7 @@ import { CreateEmbed } from "./embeds";
 
 import { LoggingWebhook } from "../../configs/keys.json";
 
-export async function Log(subject: string, message: string, color: LoggingColors, OnlyRelay: boolean = false): Promise<boolean> {
+export async function Log(subject: string, message: string, color: LoggingColors, NotToRelay: boolean = false): Promise<boolean> {
     
   // Get time and format it
 
@@ -27,7 +27,7 @@ export async function Log(subject: string, message: string, color: LoggingColors
 
     LogToRelay("W6QLnZW9UHJ2HH3p", InferredLogLevel, subject, message);
 
-    if (!OnlyRelay) await PostToWebhook(subject, nostyle, null, ResolvableColors[color as keyof typeof ResolvableColors]);
+    if (!NotToRelay) await PostToWebhook(subject, nostyle, null, ResolvableColors[color as keyof typeof ResolvableColors]);
 
   } catch (error) {
 
